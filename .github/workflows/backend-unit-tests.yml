@@ -27,7 +27,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: backend/.node-version
+          node-version-file: backend/.node-version
           registry-url: "https://registry.npmjs.org"
           cache: "npm"
           cache-dependency-path: backend/package-lock.json
@@ -50,6 +50,7 @@ jobs:
 
       - name: Build project
         run: npm run build
+        working-directory: backend
 
       - name: Upload test results
         uses: actions/upload-artifact@v3
