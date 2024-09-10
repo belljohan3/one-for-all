@@ -15,19 +15,26 @@ on:
     paths:
       - backend/**
       - .github/workflows/backend-unit-tests.yml
+  workflow_call:
+
+env:
+  CI: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: backend/.node-version
+          node-version-file: backend/.node-version
           registry-url: "https://registry.npmjs.org"
           cache: "npm"
           cache-dependency-path: backend/package-lock.json
@@ -50,6 +57,7 @@ jobs:
 
       - name: Build project
         run: npm run build
+        working-directory: backend
 
       - name: Upload test results
         uses: actions/upload-artifact@v3
